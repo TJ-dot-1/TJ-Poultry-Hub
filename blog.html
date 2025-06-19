@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Same head as index.html -->
+</head>
+<body>
+    <!-- Same header as index.html -->
+
+    <main class="blog-page">
+        <section class="blog-section">
+            <div class="container">
+                <h1>Poultry Farming Tips</h1>
+                <div class="blog-categories">
+                    <button class="category-btn active" data-category="all">All</button>
+                    <button class="category-btn" data-category="feeding">Feeding</button>
+                    <button class="category-btn" data-category="health">Health</button>
+                    <button class="category-btn" data-category="equipment">Equipment</button>
+                </div>
+                <div class="blog-posts" id="blog-posts">
+                    <!-- Blog posts loaded via JavaScript -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Same footer as index.html -->
+    <!-- Same cart sidebar as index.html -->
+
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        // Sample Blog Data
+        const blogPosts = [
+            {
+                id: 1,
+                title: 'Best Feeding Practices for Broilers',
+                excerpt: 'Learn how to optimize your broiler feeding schedule for maximum growth...',
+                image: 'images/blog/feeding.jpg',
+                category: 'feeding',
+                date: '2024-03-10'
+            },
+            {
+                id: 2,
+                title: 'Preventing Common Poultry Diseases',
+                excerpt: 'Essential vaccination schedule and biosecurity measures for healthy chickens...',
+                image: 'images/blog/health.jpg',
+                category: 'health',
+                date: '2024-03-05'
+            },
+            {
+                id: 3,
+                title: 'Choosing the Right Feeding Equipment',
+                excerpt: 'Comparison of different feeder types and their advantages...',
+                image: 'images/blog/equipment.jpg',
+                category: 'equipment',
+                date: '2024-02-28'
+            }
+        ];
+
+        // Display Blog Posts
+        function displayBlogPosts(category = 'all') {
+            const blogPostsContainer = document.getElementById('blog-posts');
+            let filteredPosts = blogPosts;
+            
+            if (category !== 'all') {
+                filteredPosts = blogPosts.filter(post => post.category === category);
+            }
+            
+            blogPostsContainer.innerHTML = filteredPosts.map(post => `
+                <article class="blog-post">
+                    <img src="${post.image}" alt="${post.title}" class="post-image">
+                    <div class="post-content">
+                        <span class="post-category">${post.category.charAt(0).toUpperCase() + post.category.slice(1)}</span>
+                        <h2><a href="post.html?id=${post.id}">${post.title}</a></h2>
+                        <p class="post-excerpt">${post.excerpt}</p>
+                        <div class="post-meta">
+                            <span class="post-date">${new Date(post.date).toLocaleDateString()}</span>
+                            <a href="post.html?id=${post.id}" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // Filter Blog Posts
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelector('.category-btn.active').classList.remove('active');
+                this.classList.add('active');
+                
+                const category = this.getAttribute('data-category');
+                displayBlogPosts(category);
+            });
+        });
+
+        // Initialize Blog
+        displayBlogPosts();
+    </script>
+</body>
+</html>
